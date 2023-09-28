@@ -16,13 +16,15 @@ class CalculatorController < ApplicationController
   end
 
   def payment
-    @apr = params.fetch("user_apr")
+    @apr = params.fetch("user_apr").to_f
 
     @years = params.fetch("user_years")
   
     @pv = params.fetch("user_pv")
   
-    monthly_interest_rate = @apr.to_f/12/100
+    @formated_apr = sprintf("%.4f",@apr)
+
+    monthly_interest_rate = @apr/12/100
     n = @years.to_f * 12
   
     monthly_payment = (monthly_interest_rate * @pv.to_f) / (1 - (1 + monthly_interest_rate)**-n)
